@@ -2,11 +2,9 @@
 """Defines the console application of AirBnB"""
 
 import cmd
-import re
-import argparse
-
+import models 
 from models.base_model import BaseModel
-from models import storage
+
 
 class HBNBCommand(cmd.Cmd):
     """ Defines the HBNB Concole interpreter 
@@ -16,7 +14,7 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
 
     def do_quit(self, arg):
-        """Quit command to exit the program."""
+        """Quit command to exit the program.\n"""
         return True
 
     def do_EOF(self, arg):
@@ -34,9 +32,26 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         new_instance = HBNBCommand.classes[args]()
-        storage.save()
+        models.storage.save()
         print(new_instance.id)
-        storage.save()
+        models.storage.save()
+
+    def do_show(self, arg):
+        """Usage: show <class> <id> or <class>.show(<id>)
+        Display the string representation of a class instance of a given id.
+        """
+        argl = arg.split()
+        
+        if len(argl) == 0:
+            print("** class name missing **")
+        elif argl[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+        elif len(argl) == 1:
+            print("** instance id missing **")
+        else:
+            class_name = argl[0]
+            instance_id = argl[1]
+            objdict = models.storage
 
     def emptyline(self):
         pass

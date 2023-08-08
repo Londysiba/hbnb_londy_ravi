@@ -19,7 +19,6 @@ class BaseModel():
         else:
             kwargs["updated_at"] = datetime.strptime(kwargs["updated_at"], date_format)
             kwargs["created_at"] = datetime.strptime(kwargs["created_at"], date_format)
-            del kwargs["__class__"]
             self.__dict__.update(kwargs)
 
     def __str__(self):
