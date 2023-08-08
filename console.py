@@ -102,6 +102,7 @@ class HBNBCommand(cmd.Cmd):
             (save the change into the JSON file)."""
 
             argList = arg.split()
+            objectDict = models.storage.all()
             objList = []
 
             if len(argList) == 0:
@@ -116,6 +117,35 @@ class HBNBCommand(cmd.Cmd):
             if "{}.{}".format(argList[0], argList[1]) not in objList.keys():
                 print("** no instance found **")
                 return False
+            if len(argList) == 2:
+                print("** attribute name missing **")
+                return False
+            if len(argList) == 3:
+                try:
+                    type(eval(argList[2])) != dict
+                except NameError:
+                    print("")
+                    return False
+            if len(argList) == 4:
+                theObject = objectDict["{}{}".format(argList[0], argList[1])]
+                if argList[2] in theObject.__class__.__dict__.keys():
+                    typeParam = type(theObject.__class__.__dict__[argList[2]])
+                    theObject.__dict__[argList[2]] = typeParam(argList[3])
+                else:
+                    theObject.__dict__[argList[2]] = argList[3]
+            elif typeParam(eval(argList[2])) == dict:
+                theObject = objectDict["{}{}".format(argList[0], argList[1])]
+                for x, y in eval(argList[2].items()):
+                    if (x in theObject.__class__.__dict__.keys()
+                        and type(theObject.__class__.__dict__[x])
+                        in {str, int, float}):
+                        typeParam = type(theObject.__class__.__dict__[x])
+                        theObject.__dict__[x] = typeParam(y)
+                    else:
+                        theObject.__dict__[x] = y
+
+            models.storage.save()
+
 
     def emptyline(self):
         pass
