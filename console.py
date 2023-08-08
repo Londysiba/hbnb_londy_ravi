@@ -96,6 +96,27 @@ class HBNBCommand(cmd.Cmd):
                     objList.append(obj.__str__())
             print(objList)
 
+        def do_update(self, arg):
+            """Updates an instance based on the class name 
+            And id by adding or updating attribute 
+            (save the change into the JSON file)."""
+
+            argList = arg.split()
+            objList = []
+
+            if len(argList) == 0:
+                print("** class name missing **")
+                return False
+            if argList[0] not in HBNBCommand.__classes:
+                print("** class doesn't exist **")
+                return False
+            if len(argList) == 1:
+                print("** instance id missing**")
+                return False
+            if "{}.{}".format(argList[0], argList[1]) not in objList.keys():
+                print("** no instance found **")
+                return False
+
     def emptyline(self):
         pass
 
