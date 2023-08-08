@@ -40,33 +40,33 @@ class HBNBCommand(cmd.Cmd):
         """Usage: show <class> <id> or <class>.show(<id>)
         Display the string representation of a class instance of a given id.
         """
-        argList = arg.split()
+        argListist = arg.split()
         
-        if len(argList) == 0:
+        if len(argListist) == 0:
             print("** class name missing **")
-        elif argList[0] not in HBNBCommand.__classes:
+        elif argListist[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
-        elif len(argList) == 1:
+        elif len(argListist) == 1:
             print("** instance id missing **")
         else:
-            class_name = argList[0]
-            instance_id = argList[1]
+            class_name = argListist[0]
+            instance_id = argListist[1]
             objdict = models.storage
 
     def do_destroy(self, arg):
         """Usage: destroy <class> <id> or <class>.destroy(<id>)
         Delete a class instance of a given id."""
-        argList = arg.split()
+        argListist = arg.split()
 
-        if len(argList) == 0:
+        if len(argListist) == 0:
             print("** class name missing **")
-        elif argList[0] not in HBNBCommand.__classes:
+        elif argListist[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
-        elif len(argList) == 1:
+        elif len(argListist) == 1:
             print("** instance id missing **")
         else:
-            class_name = argList[0]
-            instance_id = argList[1]
+            class_name = argListist[0]
+            instance_id = argListist[1]
             objdict = models.storage.all()
             instance_key = "{}.{}".format(class_name, instance_id)
 
@@ -77,12 +77,24 @@ class HBNBCommand(cmd.Cmd):
                 models.storage.save()
 
     def do_all(self, arg):
-        """Prints all string representation of all instances based or not on the class name """
-        argList = arg.split()
+        """Usage: all or all <class> or <class>.all()
+        Display string representations of all instances of a given class.
+        If no class is specified, displays all instantiated objects."""
 
-        if len(argList) not in HBNBCommand.classes:
+        argList = arg.split()
+        objList = []
+
+        if len(argList) > 0 and argList[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
-            return
+        else:
+            all_objects = models.storage.all()
+
+            for obj in all_objects.values():
+                if len(argList) > 0 and argList[0] == obj.__class__.__name__:
+                    objList.append(obj.__str__())
+                elif len(argList) == 0:
+                    objList.append(obj.__str__())
+            print(objList)
 
     def emptyline(self):
         pass
