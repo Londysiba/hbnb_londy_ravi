@@ -12,6 +12,15 @@ class HBNBCommand(cmd.Cmd):
             prompt(hbnb)
     """
     prompt = "(hbnb) "
+    __classes = {
+        "BaseModel",
+        "User",
+        "State",
+        "City",
+        "Place",
+        "Amenity",
+        "Review"
+    }
 
     def do_quit(self, arg):
         """Quit command to exit the program.\n"""
@@ -28,10 +37,11 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        elif args not in HBNBCommand.__classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
+        ###new_instance = HBNBCommand.__classes[args]()
+        new_instance = eval("{}()".format(args))
         models.storage.save()
         print(new_instance.id)
         models.storage.save()
@@ -41,17 +51,21 @@ class HBNBCommand(cmd.Cmd):
         Display the string representation of a class instance of a given id.
         """
         argListist = arg.split()
-        
+        objdict = models.storage.all()
+
         if len(argListist) == 0:
             print("** class name missing **")
         elif argListist[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         elif len(argListist) == 1:
             print("** instance id missing **")
+        elif "{}.{}".format(argListist[0], argListist[1]) not in objdict:
+            print("** no instance found **")
         else:
             class_name = argListist[0]
             instance_id = argListist[1]
-            objdict = models.storage
+            print(objdict["{}.{}".format(class_name, instance_id)])
+            ###objdict = models.storage
 
     def do_destroy(self, arg):
         """Usage: destroy <class> <id> or <class>.destroy(<id>)
@@ -96,58 +110,59 @@ class HBNBCommand(cmd.Cmd):
                     objList.append(obj.__str__())
             print(objList)
 
-        def do_update(self, arg):
-            """Updates an instance based on the class name 
-            And id by adding or updating attribute 
-            (save the change into the JSON file)."""
+    def do_update(self, arg):
+        """Usage: update <class> <id> <attribute_name> <attribute_value> or
+        <class>.update(<id>, <attribute_name>, <attribute_value>) or
+        <class>.update(<id>, <dictionary>)
+        Update a class instance of a given id by adding or updating
+        a given attribute key/value pair or dictionary."""
+        argl = arg.split()
+        objdict = models.storage.all()
 
-            argList = arg.split()
-            objectDict = models.storage.all()
-            objList = []
+        if len(argl) < 2:
+            print("** class name missing **")
+            return
 
-            if len(argList) == 0:
-                print("** class name missing **")
-                return False
-            if argList[0] not in HBNBCommand.__classes:
-                print("** class doesn't exist **")
-                return False
-            if len(argList) == 1:
-                print("** instance id missing**")
-                return False
-            if "{}.{}".format(argList[0], argList[1]) not in objList.keys():
-                print("** no instance found **")
-                return False
-            if len(argList) == 2:
-                print("** attribute name missing **")
-                return False
-            if len(argList) == 3:
-                try:
-                    type(eval(argList[2])) != dict
-                except NameError:
-                    print("")
-                    return False
-            if len(argList) == 4:
-                theObject = objectDict["{}{}".format(argList[0], argList[1])]
-                if argList[2] in theObject.__class__.__dict__.keys():
-                    typeParam = type(theObject.__class__.__dict__[argList[2]])
-                    theObject.__dict__[argList[2]] = typeParam(argList[3])
-                else:
-                    theObject.__dict__[argList[2]] = argList[3]
-            elif typeParam(eval(argList[2])) == dict:
-                theObject = objectDict["{}{}".format(argList[0], argList[1])]
-                for x, y in eval(argList[2].items()):
-                    if (x in theObject.__class__.__dict__.keys()
-                        and type(theObject.__class__.__dict__[x])
-                        in {str, int, float}):
-                        typeParam = type(theObject.__class__.__dict__[x])
-                        theObject.__dict__[x] = typeParam(y)
-                    else:
-                        theObject.__dict__[x] = y
+        class_name = argl[0]
+        instance_id = argl[1]
 
-            models.storage.save()
+        if class_name not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+            return
 
+        if len(argl) < 3:
+            print("** instance id missing **")
+            return
+
+        instance_key = "{}.{}".format(class_name, instance_id)
+        if instance_key not in objdict.keys():
+            print("** no instance found **")
+            return
+
+        obj = objdict[instance_key]
+
+        if len(argl) < 3:
+            print("** attribute name missing **")
+            return
+
+        attribute_name = argl[2]
+
+        if len(argl) < 4:
+            print("** value missing **")
+            return
+
+        attribute_value = argl[3]
+
+        if attribute_name in obj.__class__.__dict__.keys():
+            valtype = type(obj.__class__.__dict__[attribute_name])
+            obj.__dict__[attribute_name] = valtype(attribute_value)
+        else:
+            obj.__dict__[attribute_name] = attribute_value
+
+        models.storage.save()
 
     def emptyline(self):
+        """Do nothing upon receiving an empty line."""
         pass
 
 if __name__ == '__main__':
