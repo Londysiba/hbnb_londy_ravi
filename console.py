@@ -28,6 +28,27 @@ class HBNBCommand(cmd.Cmd):
         "Amenity",
         "Review"
     }
+    def precmd(self, line):
+        """Hook method executed just before the command line is
+        interpreted, but after the input prompt is generated and issued.
+
+        """
+        argList = re.findall(r'\w+(?=\.all\(\))', line)
+        argList1 = re.findall(r'\w+(?=\.count\(\))', line)
+        argList2 = re.findall(r'\w+(?=\.show\("[0-9a-z\-]+"\))', line)
+        argList3 = re.findall(r'\w+(?=\.destroy\("[0-9a-z\-]+"\))', line)
+        if len(argList) > 0:
+            return "all {}".format(argList[0])
+        elif len(argList1) > 0:
+            return "count {}".format(argList1[0])
+        elif len(argList2) > 0:
+            id_num = re.findall(r'(?<=\.show\(")[0-9a-z\-]+(?="\))', line)
+            return "show {} {}".format(argList2[0], id_num[0])
+        elif len(argList3) > 0:
+            id_num = re.findall(r'(?<=\.destroy\(")[0-9a-z\-]+(?="\))', line)
+            return "destroy {} {}".format(argList3[0], id_num[0])
+        else:
+            return line
 
     def do_quit(self, arg):
         """Quit command to exit the program.\n"""
