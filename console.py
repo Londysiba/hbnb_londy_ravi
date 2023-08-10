@@ -173,5 +173,15 @@ class HBNBCommand(cmd.Cmd):
         """Do nothing upon receiving an empty line."""
         pass
 
+    def do_count(self, arg):
+        """Usage: count <class> or <class>.count()
+        Retrieve the number of instances of a given class."""
+        argList = arg.split()
+        argCounter = 0
+        for theObject in models.storage.all().values():
+            if argList[0] == theObject.__class__.__name__:
+                argCounter += 1
+        print(argCounter)
+
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
