@@ -2,6 +2,7 @@
 """Defines the unnittests cases for base_model"""
 
 import unittest
+import os
 from models.base_model import BaseModel
 import models.base_model as bm_documentation
 from time import sleep
@@ -75,6 +76,16 @@ class Test_base_model_str(unittest.TestCase):
 
 class Test_base_model_save(unittest.TestCase):
     """Test cases for save method on base_model file"""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.backup_file_name = "tmp.json"
+        cls.test_file_name = "file.json"
+
+    @classmethod
+    def tearDownClass(cls):
+        if os.path.exists(cls.test_file_name):
+            os.remove(cls.test_file_name)
 
     def test_base_model_save_dateTime(self):
         """tests for save method on base_model file"""
