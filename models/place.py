@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-#An place class that inherits from BaseModel
+"""A state class that inherits from BaseModel"""
 from models.base_model import BaseModel
 
 class Place(BaseModel):
