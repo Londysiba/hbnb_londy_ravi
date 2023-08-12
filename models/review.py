@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Defines the Review class."""
+"""A state class that inherits from BaseModel"""
 from models.base_model import BaseModel
 
 class Review(BaseModel):
