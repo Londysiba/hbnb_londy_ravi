@@ -34,6 +34,7 @@ class Test_city_documentation(unittest.TestCase):
         """tests the documentation of the city file"""
         self.assertGreater(len(City.__str__.__doc__), 0)
 
+
 class Test_city_initialization(unittest.TestCase):
     """tests the initialization method on city file"""
 
@@ -41,7 +42,7 @@ class Test_city_initialization(unittest.TestCase):
         """tests the instances of the city file"""
         city_class = City()
         self.assertTrue(type(city_class == City))
-    
+
     def test_city_creationTime(self):
         """tests the created_at time of the city file"""
         city_class1 = City()
@@ -78,8 +79,8 @@ class Test_city_initialization(unittest.TestCase):
         dt_format = datetime.today()
         dt_iso_format = dt_format.isoformat()
         city_class = City(id="345", created_at=dt_iso_format,
-                       updated_at=dt_iso_format)
-        
+                          updated_at=dt_iso_format)
+
         self.assertTrue(city_class.id == "345")
         self.assertTrue(city_class.created_at == dt_format)
         self.assertTrue(city_class.updated_at == dt_format)
@@ -87,6 +88,7 @@ class Test_city_initialization(unittest.TestCase):
     def test_of_None_kwargs_instantiation(self):
         with self.assertRaises(TypeError):
             City(id=None, created_at=None, updated_at=None)
+
 
 class Test_city_str(unittest.TestCase):
     """tests the __str__ method on city file"""
@@ -101,6 +103,7 @@ class Test_city_str(unittest.TestCase):
         city_class = City()
         city_class_result = f"{City}({id}){dict}"
         self.assertNotEqual(str(City), city_class_result)
+
 
 class Test_city_save(unittest.TestCase):
     """Test cases for save method on city file"""
@@ -147,6 +150,7 @@ class Test_city_save(unittest.TestCase):
         with open("file.json", "r") as f:
             file_content = f.read()
             self.assertTrue(city_class_id in file_content)
+
 
 class Test_city_to_dict(unittest.TestCase):
     """tests cases for to_dict on city file"""
@@ -199,6 +203,7 @@ class Test_city_to_dict(unittest.TestCase):
             'updated_at': dtFormat.isoformat()
         }
         self.assertDictEqual(city_class.to_dict(), tdict)
-        
+
+
 if __name__ == "__main__":
     unittest.main()

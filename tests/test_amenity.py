@@ -34,6 +34,7 @@ class Test_amenity_documentation(unittest.TestCase):
         """tests the documentation of the amenity file"""
         self.assertGreater(len(Amenity.__str__.__doc__), 0)
 
+
 class Test_amenity_initialization(unittest.TestCase):
     """tests the initialization method on amenity file"""
 
@@ -41,20 +42,22 @@ class Test_amenity_initialization(unittest.TestCase):
         """tests the instances of the amenity file"""
         amenity_class = Amenity()
         self.assertTrue(type(amenity_class == Amenity))
-    
+
     def test_amenity_creationTime(self):
         """tests the created_at time of the amenity file"""
         amenity_class1 = Amenity()
         sleep(0.02)
         amenity_class2 = Amenity()
-        self.assertGreater(amenity_class2.created_at, amenity_class1.created_at)
+        self.assertGreater(amenity_class2.created_at,
+                           amenity_class1.created_at)
 
     def test_amenity_updatedTime(self):
         """tests the updated_at time of the amenity file"""
         amenity_class1 = Amenity()
         sleep(0.03)
         amenity_class2 = Amenity()
-        self.assertGreater(amenity_class2.updated_at, amenity_class1.updated_at)
+        self.assertGreater(amenity_class2.updated_at,
+                           amenity_class1.updated_at)
 
     def test_amenity_2_diff_id(self):
         """tests if 2 different id"""
@@ -77,9 +80,10 @@ class Test_amenity_initialization(unittest.TestCase):
     def test_instantiation_with_kwargs(self):
         dt_format = datetime.today()
         dt_iso_format = dt_format.isoformat()
-        amenity_class = Amenity(id="345", created_at=dt_iso_format,
-                       updated_at=dt_iso_format)
-        
+        amenity_class = Amenity(id="345",
+                                created_at=dt_iso_format,
+                                updated_at=dt_iso_format)
+
         self.assertTrue(amenity_class.id == "345")
         self.assertTrue(amenity_class.created_at == dt_format)
         self.assertTrue(amenity_class.updated_at == dt_format)
@@ -87,6 +91,7 @@ class Test_amenity_initialization(unittest.TestCase):
     def test_of_None_kwargs_instantiation(self):
         with self.assertRaises(TypeError):
             Amenity(id=None, created_at=None, updated_at=None)
+
 
 class Test_amenity_str(unittest.TestCase):
     """tests the __str__ method on amenity file"""
@@ -101,6 +106,7 @@ class Test_amenity_str(unittest.TestCase):
         amenity_class = Amenity()
         amenity_class_result = f"{Amenity}({id}){dict}"
         self.assertNotEqual(str(Amenity), amenity_class_result)
+
 
 class Test_amenity_save(unittest.TestCase):
     """Test cases for save method on amenity file"""
@@ -147,6 +153,7 @@ class Test_amenity_save(unittest.TestCase):
         with open("file.json", "r") as f:
             file_content = f.read()
             self.assertTrue(amenity_class_id in file_content)
+
 
 class Test_amenity_to_dict(unittest.TestCase):
     """tests cases for to_dict on amenity file"""
@@ -197,6 +204,7 @@ class Test_amenity_to_dict(unittest.TestCase):
             'updated_at': dtFormat.isoformat()
         }
         self.assertDictEqual(amenity_class.to_dict(), tdict)
-        
+
+
 if __name__ == "__main__":
     unittest.main()

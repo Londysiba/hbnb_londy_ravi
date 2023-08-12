@@ -30,6 +30,7 @@ class Test_review_model_documentation(unittest.TestCase):
     def test_review_model_str(self):
         """tests the documentation of the review_model file"""
         self.assertGreater(len(Review.__str__.__doc__), 0)
+
     def test_attribute_public(self):
         """tests if the attributes are public"""
         review_class = Review()
@@ -41,6 +42,7 @@ class Test_review_model_documentation(unittest.TestCase):
         self.assertTrue(hasattr(review_class, 'user_id'))
         self.assertTrue(hasattr(review_class, 'text'))
 
+
 class Test_review_model_initialization(unittest.TestCase):
     """tests the initialization method on review_model file"""
 
@@ -48,7 +50,7 @@ class Test_review_model_initialization(unittest.TestCase):
         """tests the instances of the review_model file"""
         review_class = Review()
         self.assertTrue(type(review_class == Review))
-    
+
     def test_review_model_creationTime(self):
         """tests the created_at time of the review_model file"""
         review_class1 = Review()
@@ -85,8 +87,8 @@ class Test_review_model_initialization(unittest.TestCase):
         dt_format = datetime.today()
         dt_iso_format = dt_format.isoformat()
         review_class = Review(id="345", created_at=dt_iso_format,
-                       updated_at=dt_iso_format)
-        
+                              updated_at=dt_iso_format)
+
         self.assertTrue(review_class.id == "345")
         self.assertTrue(review_class.created_at == dt_format)
         self.assertTrue(review_class.updated_at == dt_format)
@@ -102,6 +104,7 @@ class Test_review_model_initialization(unittest.TestCase):
         self.assertEqual(Review.user_id, "")
         self.assertEqual(Review.text, "")
 
+
 class Test_review_model_str(unittest.TestCase):
     """tests the __str__ method on review_model file"""
 
@@ -116,7 +119,6 @@ class Test_review_model_str(unittest.TestCase):
         review_class_result = f"{Review}({id}){dict}"
         self.assertNotEqual(str(Review), review_class_result)
 
-   
 
 class Test_review_model_save(unittest.TestCase):
     """Test cases for save method on review_model file"""
@@ -164,6 +166,7 @@ class Test_review_model_save(unittest.TestCase):
             file_content = f.read()
             self.assertTrue(review_class_id in file_content)
 
+
 class Test_review_model_to_dict(unittest.TestCase):
     """tests cases for to_dict on review_model file"""
 
@@ -173,7 +176,8 @@ class Test_review_model_to_dict(unittest.TestCase):
         self.assertTrue(isinstance(review_class.to_dict(), dict))
 
     def test_model_to_dict_keys(self):
-        """tests the correct keys for the to_dict method on review_model file"""
+        """tests the correct keys for the
+        to_dict method on review_model file"""
         review_class = Review()
         keys = ["id", "created_at", "updated_at", "__class__"]
         self.assertIn("id", review_class.to_dict())
@@ -219,6 +223,6 @@ class Test_review_model_to_dict(unittest.TestCase):
         self.assertEqual(Review.user_id, "8398470248930")
         self.assertEqual(Review.text, "Londeka-khotso")
 
-        
+
 if __name__ == "__main__":
     unittest.main()

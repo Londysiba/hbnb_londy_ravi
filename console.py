@@ -3,7 +3,7 @@
 
 import re
 import cmd
-import models 
+import models
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -14,7 +14,7 @@ from models.place import Place
 
 
 class HBNBCommand(cmd.Cmd):
-    """ Defines the HBNB Concole interpreter 
+    """ Defines the HBNB Concole interpreter
         Attributes:
             prompt(hbnb)
     """
@@ -28,6 +28,7 @@ class HBNBCommand(cmd.Cmd):
         "Amenity",
         "Review"
     }
+
     def precmd(self, line):
         """Hook method executed just before the command line is
         interpreted, but after the input prompt is generated and issued.
@@ -68,7 +69,7 @@ class HBNBCommand(cmd.Cmd):
         elif args not in HBNBCommand.__classes:
             print("** class doesn't exist **")
             return
-        ###new_instance = HBNBCommand.__classes[args]()
+
         new_instance = eval("{}()".format(args))
         models.storage.save()
         print(new_instance.id)
@@ -93,7 +94,6 @@ class HBNBCommand(cmd.Cmd):
             class_name = argListist[0]
             instance_id = argListist[1]
             print(objdict["{}.{}".format(class_name, instance_id)])
-            ###objdict = models.storage
 
     def do_destroy(self, arg):
         """Usage: destroy <class> <id> or <class>.destroy(<id>)
@@ -144,8 +144,7 @@ class HBNBCommand(cmd.Cmd):
         <class>.update(<id>, <dictionary>)
         Update a class instance of a given id by adding or updating
         a given attribute key/value pair or dictionary."""
-        ###argl = arg.split()
-        argl = re.findall('"[^"]*"|\S+', arg)
+        argl = re.findall(r'"[^"]*"|\S+', arg)
         objdict = models.storage.all()
 
         if len(argl) < 2:
@@ -188,7 +187,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             obj.__dict__[attribute_name] = attribute_value
 
-        models.storage.save()
+        objdict[f"{class_name}.{instance_id}"].save()
 
     def emptyline(self):
         """Do nothing upon receiving an empty line."""
@@ -203,6 +202,7 @@ class HBNBCommand(cmd.Cmd):
             if argList[0] == theObject.__class__.__name__:
                 argCounter += 1
         print(argCounter)
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

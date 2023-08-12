@@ -33,6 +33,7 @@ class Test_user_model_documentation(unittest.TestCase):
     def test_user_model_str(self):
         """tests the documentation of the user_model file"""
         self.assertGreater(len(User.__str__.__doc__), 0)
+
     def test_attribute_public(self):
         """tests if the attributes are public"""
         user_class = User()
@@ -45,6 +46,7 @@ class Test_user_model_documentation(unittest.TestCase):
         self.assertTrue(hasattr(user_class, 'password'))
         self.assertTrue(hasattr(user_class, 'email'))
 
+
 class Test_user_model_initialization(unittest.TestCase):
     """tests the initialization method on user_model file"""
 
@@ -52,7 +54,7 @@ class Test_user_model_initialization(unittest.TestCase):
         """tests the instances of the user_model file"""
         user_class = User()
         self.assertTrue(type(user_class == User))
-    
+
     def test_user_model_creationTime(self):
         """tests the created_at time of the user_model file"""
         user_class1 = User()
@@ -89,8 +91,8 @@ class Test_user_model_initialization(unittest.TestCase):
         dt_format = datetime.today()
         dt_iso_format = dt_format.isoformat()
         user_class = User(id="345", created_at=dt_iso_format,
-                       updated_at=dt_iso_format)
-        
+                          updated_at=dt_iso_format)
+
         self.assertTrue(user_class.id == "345")
         self.assertTrue(user_class.created_at == dt_format)
         self.assertTrue(user_class.updated_at == dt_format)
@@ -107,6 +109,7 @@ class Test_user_model_initialization(unittest.TestCase):
         self.assertEqual(User.first_name, "")
         self.assertEqual(User.last_name, "")
 
+
 class Test_user_model_str(unittest.TestCase):
     """tests the __str__ method on user_model file"""
 
@@ -121,7 +124,6 @@ class Test_user_model_str(unittest.TestCase):
         user_class_result = f"{User}({id}){dict}"
         self.assertNotEqual(str(User), user_class_result)
 
-   
 
 class Test_user_model_save(unittest.TestCase):
     """Test cases for save method on user_model file"""
@@ -168,6 +170,7 @@ class Test_user_model_save(unittest.TestCase):
         with open("file.json", "r") as f:
             file_content = f.read()
             self.assertTrue(user_class_id in file_content)
+
 
 class Test_user_model_to_dict(unittest.TestCase):
     """tests cases for to_dict on user_model file"""
@@ -224,6 +227,7 @@ class Test_user_model_to_dict(unittest.TestCase):
         self.assertEqual(User.password, "@password45")
         self.assertEqual(User.first_name, "Londeka")
         self.assertEqual(User.last_name, "Khotso")
-        
+
+
 if __name__ == "__main__":
     unittest.main()

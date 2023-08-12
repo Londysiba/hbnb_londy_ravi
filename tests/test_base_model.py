@@ -34,6 +34,7 @@ class Test_base_model_documentation(unittest.TestCase):
         """tests the documentation of the base_model file"""
         self.assertGreater(len(BaseModel.__str__.__doc__), 0)
 
+
 class Test_base_model_initialization(unittest.TestCase):
     """tests the initialization method on base_model file"""
 
@@ -41,7 +42,7 @@ class Test_base_model_initialization(unittest.TestCase):
         """tests the instances of the base_model file"""
         b_model = BaseModel()
         self.assertTrue(type(b_model == BaseModel))
-    
+
     def test_base_model_creationTime(self):
         """tests the created_at time of the base_model file"""
         b_model1 = BaseModel()
@@ -78,8 +79,8 @@ class Test_base_model_initialization(unittest.TestCase):
         dt_format = datetime.today()
         dt_iso_format = dt_format.isoformat()
         b_model = BaseModel(id="345", created_at=dt_iso_format,
-                       updated_at=dt_iso_format)
-        
+                            updated_at=dt_iso_format)
+
         self.assertTrue(b_model.id == "345")
         self.assertTrue(b_model.created_at == dt_format)
         self.assertTrue(b_model.updated_at == dt_format)
@@ -87,6 +88,7 @@ class Test_base_model_initialization(unittest.TestCase):
     def test_of_None_kwargs_instantiation(self):
         with self.assertRaises(TypeError):
             BaseModel(id=None, created_at=None, updated_at=None)
+
 
 class Test_base_model_str(unittest.TestCase):
     """tests the __str__ method on base_model file"""
@@ -101,6 +103,7 @@ class Test_base_model_str(unittest.TestCase):
         b_model = BaseModel()
         b_model_result = f"{BaseModel}({id}){dict}"
         self.assertNotEqual(str(BaseModel), b_model_result)
+
 
 class Test_base_model_save(unittest.TestCase):
     """Test cases for save method on base_model file"""
@@ -148,6 +151,7 @@ class Test_base_model_save(unittest.TestCase):
             file_content = f.read()
             self.assertTrue(b_model_id in file_content)
 
+
 class Test_base_model_to_dict(unittest.TestCase):
     """tests cases for to_dict on base_model file"""
 
@@ -191,6 +195,7 @@ class Test_base_model_to_dict(unittest.TestCase):
             'updated_at': dtFormat.isoformat()
         }
         self.assertDictEqual(b_model.to_dict(), tdict)
-        
+
+
 if __name__ == "__main__":
     unittest.main()

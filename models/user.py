@@ -2,8 +2,9 @@
 """A state class that inherits from BaseModel"""
 from models.base_model import BaseModel
 
+
 class User(BaseModel):
-    """Public class attributes are 
+    """Public class attributes are
     Email, Password, First_name, and Lat_name"""
 
     email = ""

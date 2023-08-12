@@ -52,6 +52,7 @@ class Test_place_model_documentation(unittest.TestCase):
         self.assertTrue(hasattr(place_class, 'number_bathrooms'))
         self.assertTrue(hasattr(place_class, 'max_guest'))
 
+
 class Test_place_model_initialization(unittest.TestCase):
     """tests the initialization method on place_model file"""
 
@@ -59,7 +60,7 @@ class Test_place_model_initialization(unittest.TestCase):
         """tests the instances of the place_model file"""
         place_class = Place()
         self.assertTrue(type(place_class == Place))
-    
+
     def test_place_model_creationTime(self):
         """tests the created_at time of the place_model file"""
         place_class1 = Place()
@@ -96,8 +97,8 @@ class Test_place_model_initialization(unittest.TestCase):
         dt_format = datetime.today()
         dt_iso_format = dt_format.isoformat()
         place_class = Place(id="345", created_at=dt_iso_format,
-                       updated_at=dt_iso_format)
-        
+                            updated_at=dt_iso_format)
+
         self.assertTrue(place_class.id == "345")
         self.assertTrue(place_class.created_at == dt_format)
         self.assertTrue(place_class.updated_at == dt_format)
@@ -120,6 +121,7 @@ class Test_place_model_initialization(unittest.TestCase):
         self.assertGreaterEqual(Place.longitude, 0)
         self.assertEqual(Place.amenity_ids, [])
 
+
 class Test_place_model_str(unittest.TestCase):
     """tests the __str__ method on place_model file"""
 
@@ -134,7 +136,6 @@ class Test_place_model_str(unittest.TestCase):
         place_class_result = f"{Place}({id}){dict}"
         self.assertNotEqual(str(Place), place_class_result)
 
-   
 
 class Test_place_model_save(unittest.TestCase):
     """Test cases for save method on place_model file"""
@@ -181,6 +182,7 @@ class Test_place_model_save(unittest.TestCase):
         with open("file.json", "r") as f:
             file_content = f.read()
             self.assertTrue(place_class_id in file_content)
+
 
 class Test_place_model_to_dict(unittest.TestCase):
     """tests cases for to_dict on place_model file"""
@@ -250,6 +252,7 @@ class Test_place_model_to_dict(unittest.TestCase):
         self.assertEqual(Place.latitude, "0")
         self.assertEqual(Place.longitude, "0")
         self.assertEqual(Place.amenity_ids, "[]")
-        
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -34,6 +34,7 @@ class Test_state_documentation(unittest.TestCase):
         """tests the documentation of the state file"""
         self.assertGreater(len(State.__str__.__doc__), 0)
 
+
 class Test_state_initialization(unittest.TestCase):
     """tests the initialization method on state file"""
 
@@ -41,7 +42,7 @@ class Test_state_initialization(unittest.TestCase):
         """tests the instances of the state file"""
         state_class = State()
         self.assertTrue(type(state_class == State))
-    
+
     def test_state_creationTime(self):
         """tests the created_at time of the state file"""
         state_class1 = State()
@@ -78,8 +79,8 @@ class Test_state_initialization(unittest.TestCase):
         dt_format = datetime.today()
         dt_iso_format = dt_format.isoformat()
         state_class = State(id="345", created_at=dt_iso_format,
-                       updated_at=dt_iso_format)
-        
+                            updated_at=dt_iso_format)
+
         self.assertTrue(state_class.id == "345")
         self.assertTrue(state_class.created_at == dt_format)
         self.assertTrue(state_class.updated_at == dt_format)
@@ -87,6 +88,7 @@ class Test_state_initialization(unittest.TestCase):
     def test_of_None_kwargs_instantiation(self):
         with self.assertRaises(TypeError):
             State(id=None, created_at=None, updated_at=None)
+
 
 class Test_state_str(unittest.TestCase):
     """tests the __str__ method on state file"""
@@ -101,6 +103,7 @@ class Test_state_str(unittest.TestCase):
         state_class = State()
         state_class_result = f"{State}({id}){dict}"
         self.assertNotEqual(str(State), state_class_result)
+
 
 class Test_state_save(unittest.TestCase):
     """Test cases for save method on state file"""
@@ -147,6 +150,7 @@ class Test_state_save(unittest.TestCase):
         with open("file.json", "r") as f:
             file_content = f.read()
             self.assertTrue(state_class_id in file_content)
+
 
 class Test_state_to_dict(unittest.TestCase):
     """tests cases for to_dict on state file"""
@@ -197,6 +201,7 @@ class Test_state_to_dict(unittest.TestCase):
             'updated_at': dtFormat.isoformat()
         }
         self.assertDictEqual(state_class.to_dict(), tdict)
-        
+
+
 if __name__ == "__main__":
     unittest.main()
